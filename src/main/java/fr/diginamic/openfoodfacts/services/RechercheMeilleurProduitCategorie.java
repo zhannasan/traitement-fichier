@@ -31,13 +31,13 @@ public class RechercheMeilleurProduitCategorie {
 		
 		for (Produit p : produits) {
 			if (CompareStrings.isSame(categorie, p.getCat().getLibelle()) && p.getScore().toString().equals(listScore.get(0).toString())) {
-				names.add(p.getNom());
+				names.add(p.getNom()+" - "+p.getMarque().getNom());
 			}
 		}
 		if (names.isEmpty()) {
 			System.out.println("Aucun produit n'a pas été trouvé.");
 		} else {
-			System.out.println("Le meilleure score de la categorie " +cat+" est "+listScore.get(0));
+			System.out.println("Le meilleure score de la categorie '" +cat+"' est "+listScore.get(0)+" :");
 			for (String s : names) {
 				System.out.println(s);
 			}

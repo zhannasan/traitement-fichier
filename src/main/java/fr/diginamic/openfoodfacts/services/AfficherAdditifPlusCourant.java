@@ -1,12 +1,15 @@
 package fr.diginamic.openfoodfacts.services;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
+import java.util.TreeMap;
 import java.util.Map.Entry;
 
 import fr.diginamic.openfoodfacts.entites.Additif;
+import fr.diginamic.openfoodfacts.entites.Allergene;
 import fr.diginamic.openfoodfacts.entites.Produit;
 import fr.diginamic.openfoodfacts.entites.Stock;
 
@@ -14,30 +17,29 @@ public class AfficherAdditifPlusCourant {
 	public void traiter(Stock stock, Scanner scanner) {
 		List<Produit> produits = stock.getProduit();
 		HashMap<Additif, String> additifs = new HashMap<Additif, String>();
+		HashMap<Integer, Additif> adds = new HashMap<Integer, Additif>();
 
 		for (Produit p : produits) {
 			additifs.putAll(p.getMapAdditif());
 		}
 
-		int maxVal = 0;
-		Additif maxKey = null;
-		List<String> maxValueList = null;
 		for (Entry<Additif, String> entry : additifs.entrySet()) {
 			List<String> valueList = Arrays.asList(entry.getValue().split("\\s*,\\s*"));
-			if (valueList.size() > maxVal) {
-				maxVal = entry.getValue().length();
-				maxKey = entry.getKey();
-				maxValueList = Arrays.asList(entry.getValue().split("\\s*,\\s*"));
-			}
+			adds.put(valueList.size(), entry.getKey());
 		}
-		if (maxKey != null && maxValueList != null) {
-			System.out.println("L'additif le plus courrant est " + maxKey.getLibelle() + "\rIl est présent dans : "+maxValueList.size()+" produits"
-		+"\rVoici les premiers 20 :");
-			for (int i=0; i<20; i++) {
-				System.out.println(maxValueList.get(i));
+		TreeMap<Integer, Additif> addings = new TreeMap<Integer, Additif>(Collections.reverseOrder());
+		addings.putAll(adds);
+		if (addings != null) {
+			System.out.println("Les 20 additifs le plus courrants sont :");
+			int i=0;
+			for (Entry<Integer, Additif> entry : addings.entrySet()) {
+				System.out.println(entry.getValue().getLibelle() + " est présent dans : " 
+									+ entry.getKey() + " produits");
+				i++;
+				if(i==20){
+				break;}
 			}
 		} else {
 			System.out.println("Aucun produit n'a pas été trouvé.");
-		}
-	}
+		}	}
 }

@@ -32,7 +32,10 @@ public class EditCsv {
 
 				while (br.ready()) {
 					fileW.write(br.readLine().replaceAll(";", ",").replaceAll("\\|", ";").replaceAll("_", " ")
-							.replaceAll("(?i)milk", "lait").replaceAll("\\.", "") + "\n");
+							.replaceAll("(?i)milk", "lait").replaceAll("œufs", "œuf").replaceAll("eggs", "œuf")
+							.replaceAll("soybeans", "soja").replaceAll("fish", "poisson")
+							.replaceAll("nuts", "fruits à coques").replaceAll("oeufs", "œuf")
+							.replaceAll("\\.", "") + "\n");
 				}
 				fileW.close();
 				br.close();

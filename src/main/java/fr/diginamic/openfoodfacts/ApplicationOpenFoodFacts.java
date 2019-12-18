@@ -13,7 +13,8 @@ public class ApplicationOpenFoodFacts {
 
 	public static void main(String[] args) {
 		Scanner scanner = new Scanner(System.in);
-		File file = new File( ApplicationOpenFoodFacts.class.getClassLoader().getResource("open-food-facts.csv").getFile());
+		 ClassLoader classLoader = new ApplicationOpenFoodFacts().getClass().getClassLoader();
+		File file = new File( classLoader.getResource("open-food-facts.csv").getFile());
 		Stock stock = ReadCsv.read(file.toString());	
 		
 		if(stock==null || stock.getProduit().isEmpty()){
